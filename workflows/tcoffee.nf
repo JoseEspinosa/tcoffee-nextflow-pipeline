@@ -3,6 +3,7 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+include { TCOFFEE                } from '../modules/local/tcoffee/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_tcoffee_pipeline'
@@ -13,15 +14,21 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_tcof
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow TCOFFEE {
+workflow TCOFFEE_WF {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    ch_samplesheet // channel: [ val(meta), path(fasta) ]
     outdir
 
     main:
 
     def ch_versions = channel.empty()
+
+    //
+    // MODULE: Run T-Coffee alignment
+    //
+    TCOFFEE ( ch_samplesheet )
+    // ch_versions = ch_versions.mix(TCOFFEE.out.versions.first())
 
     //
     // Collate and save software versions
@@ -47,12 +54,14 @@ workflow TCOFFEE {
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
-            name:  'tcoffee_software_'  + 'versions.yml',
+            name:  'tcoffee_software_versions.yml',
             sort: true,
             newLine: true
         )
+
     emit:
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
+    alignment = TCOFFEE.out.alignment
+    versions  = ch_versions
 }
 
 /*

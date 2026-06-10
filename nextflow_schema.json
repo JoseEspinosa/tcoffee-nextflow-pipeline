@@ -19,8 +19,8 @@
                     "schema": "assets/schema_input.json",
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
+                    "description": "Path to comma-separated samplesheet with columns: sample,fasta.",
+                    "help_text": "Each row defines one alignment job. Columns: `sample` (unique ID) and `fasta` (path to the input FASTA file with sequences to align).",
                     "fa_icon": "fas fa-file-csv"
                 },
                 "outdir": {
@@ -28,6 +28,72 @@
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
+                }
+            }
+        },
+        "tcoffee_options": {
+            "title": "T-Coffee alignment options",
+            "type": "object",
+            "fa_icon": "fas fa-align-left",
+            "description": "Parameters that control the T-Coffee alignment run.",
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "default": "regular",
+                    "description": "T-Coffee alignment mode.",
+                    "help_text": "Selects the alignment strategy. Common choices: `regular` (default protein/DNA), `expresso` (structure-aware using PDB), `psicoffee` (profile-based), `mcoffee` (consensus of multiple aligners), `rcoffee` (RNA structural alignment).",
+                    "fa_icon": "fas fa-sliders-h",
+                    "enum": ["regular", "expresso", "psicoffee", "mcoffee", "rcoffee", "accurate", "quickaln", "fmcoffee"]
+                },
+                "method": {
+                    "type": "string",
+                    "description": "Space-separated list of pairwise or multiple alignment methods to combine.",
+                    "help_text": "Override the default method set. Examples: `clustalw_pair`, `mafft_msa`, `sap_pair`, `mustang_pair`, `TMalign_pair`. Multiple values are space-separated: `'clustalw_pair mafft_msa'`.",
+                    "fa_icon": "fas fa-list"
+                },
+                "output_format": {
+                    "type": "string",
+                    "default": "clustalw_aln,score_html",
+                    "description": "Comma-separated list of output alignment formats.",
+                    "help_text": "Supported formats: `clustalw_aln`, `fasta_aln`, `pir_aln`, `msf_aln`, `score_html`, `score_ascii`, `phylip_aln`.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "letter": {
+                    "type": "string",
+                    "default": "upper",
+                    "description": "Case of the output alignment characters.",
+                    "fa_icon": "fas fa-font",
+                    "enum": ["upper", "lower", "keep"]
+                },
+                "seqnos": {
+                    "type": "string",
+                    "default": "off",
+                    "description": "Display sequence position numbers in the alignment output.",
+                    "fa_icon": "fas fa-sort-numeric-down",
+                    "enum": ["on", "off"]
+                },
+                "outorder": {
+                    "type": "string",
+                    "default": "input",
+                    "description": "Order of sequences in the output alignment.",
+                    "fa_icon": "fas fa-sort",
+                    "enum": ["input", "aligned"]
+                },
+                "maxnseq": {
+                    "type": "integer",
+                    "default": 150,
+                    "description": "Maximum number of input sequences allowed.",
+                    "fa_icon": "fas fa-hashtag",
+                    "minimum": 1,
+                    "maximum": 10000
+                },
+                "maxlen": {
+                    "type": "integer",
+                    "default": 10000,
+                    "description": "Maximum sequence length allowed.",
+                    "fa_icon": "fas fa-ruler-horizontal",
+                    "minimum": 1,
+                    "maximum": 1000000
                 }
             }
         },
@@ -145,6 +211,9 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/tcoffee_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"

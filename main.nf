@@ -13,7 +13,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { TCOFFEE  } from './workflows/tcoffee'
+include { TCOFFEE_WF as TCOFFEE } from './workflows/tcoffee'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_tcoffee_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_tcoffee_pipeline'
 /*

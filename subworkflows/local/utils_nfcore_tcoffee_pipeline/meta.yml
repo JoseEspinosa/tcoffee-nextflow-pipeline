@@ -1,0 +1,50 @@
+name: utils_nfcore_tcoffee_pipeline
+description: Utility subworkflow for the crg/tcoffee pipeline — initialisation, schema validation, samplesheet parsing, and completion hooks.
+keywords:
+  - utility
+  - pipeline
+  - initialisation
+components:
+  - utils_nfschema_plugin
+  - utils_nfcore_pipeline
+  - utils_nextflow_pipeline
+  - completionsummary
+input:
+  - version:
+      type: boolean
+      description: Display pipeline version and exit.
+  - validate_params:
+      type: boolean
+      description: Validate parameters against the schema at runtime.
+  - monochrome_logs:
+      type: boolean
+      description: Disable ANSI colour codes in log output.
+  - nextflow_cli_args:
+      type: array
+      description: List of positional Nextflow CLI arguments.
+  - outdir:
+      type: string
+      description: Output directory path.
+  - input:
+      type: string
+      description: Path to samplesheet CSV with sample,fasta columns.
+  - help:
+      type: boolean
+      description: Display help message and exit.
+  - help_full:
+      type: boolean
+      description: Display full help message and exit.
+  - show_hidden:
+      type: boolean
+      description: Show hidden parameters in help output.
+output:
+  - samplesheet:
+      type: channel
+      description: Channel of [ meta, fasta ] tuples parsed from the samplesheet.
+  - versions:
+      type: channel
+      description: Channel of software versions.
+authors:
+  - "@joseespinosacarrasco"
+maintainers:
+  - "@joseespinosacarrasco"

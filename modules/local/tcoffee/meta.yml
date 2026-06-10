@@ -1,0 +1,74 @@
+name: tcoffee
+description: |
+  Runs T-Coffee to produce a multiple sequence alignment from an input FASTA file.
+  Alignment parameters (mode, methods, output format, case, etc.) are passed via ext.args.
+keywords:
+  - alignment
+  - multiple sequence alignment
+  - T-Coffee
+  - protein
+  - RNA
+tools:
+  - tcoffee:
+      description: "A collection of tools for computing and evaluating multiple sequence alignments."
+      homepage: "http://www.tcoffee.org"
+      documentation: "http://www.tcoffee.org/Projects/tcoffee/documentation/index.html"
+      tool_dev_url: "https://github.com/cbcrg/tcoffee"
+      doi: "10.1006/jmbi.2000.4042"
+      licence: ["GPL v2-or-later"]
+      identifier: "biotools:tcoffee"
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information.
+          e.g. `[ id:'sample1' ]`
+    - fasta:
+        type: file
+        description: FASTA file containing sequences to align.
+        pattern: "*.{fa,fas,fsa,fasta}"
+
+output:
+  - alignment:
+      - meta:
+          type: map
+          description: Groovy Map containing sample information.
+      - "*.aln":
+          type: file
+          description: Multiple sequence alignment in the requested format.
+          pattern: "*.aln"
+  - score_ascii:
+      - meta:
+          type: map
+          description: Groovy Map containing sample information.
+      - "*.score_ascii":
+          type: file
+          description: ASCII score file for the alignment.
+          pattern: "*.score_ascii"
+  - html:
+      - meta:
+          type: map
+          description: Groovy Map containing sample information.
+      - "*.html":
+          type: file
+          description: HTML score visualization of the alignment.
+          pattern: "*.html"
+  - guide_tree:
+      - meta:
+          type: map
+          description: Groovy Map containing sample information.
+      - "*.dnd":
+          type: file
+          description: Newick guide tree produced during alignment.
+          pattern: "*.dnd"
+  - versions:
+      - "versions.yml":
+          type: file
+          description: File containing software versions.
+          pattern: "versions.yml"
+
+authors:
+  - "@joseespinosacarrasco"
+maintainers:
+  - "@joseespinosacarrasco"
