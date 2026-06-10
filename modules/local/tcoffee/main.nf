@@ -2,10 +2,12 @@ process TCOFFEE {
     tag "$meta.id"
     label 'process_medium'
 
-    conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'oras://community.wave.seqera.io/library/t-coffee_tmalign_pigz:f861f2f8f266c2fe':
-        'community.wave.seqera.io/library/t-coffee_tmalign_pigz:be7dac2ae6aba380' }"
+    // conda "${moduleDir}/environment.yml"
+
+    // container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    //     'oras://community.wave.seqera.io/library/t-coffee_tmalign_pigz:f861f2f8f266c2fe':
+    //     'community.wave.seqera.io/library/t-coffee_tmalign_pigz:be7dac2ae6aba380' }"
+    container "cbcrg/tcoffee:Version_13.46.2.7c9e712d"
 
     input:
     tuple val(meta), path(fasta)
@@ -32,6 +34,7 @@ process TCOFFEE {
     t_coffee \\
         -in ${fasta} \\
         -outfile ${prefix}.aln \\
+        ${args} \\
         -quiet=stdout
 
     cat <<-END_VERSIONS > versions.yml
