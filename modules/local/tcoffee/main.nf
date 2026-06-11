@@ -30,7 +30,7 @@ process TCOFFEE {
     export TEMP='./'
     export TMP_4_TCOFFEE="./"
     export HOME="./"
-
+    
     t_coffee \\
         -in ${fasta} \\
         -outfile ${prefix}.aln \\
