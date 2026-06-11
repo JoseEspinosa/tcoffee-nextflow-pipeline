@@ -11,6 +11,8 @@ process TCOFFEE {
 
     input:
     tuple val(meta), path(fasta)
+    path pdbs
+    path template
 
     output:
     tuple val(meta), path("${prefix}.aln"),             emit: alignment
@@ -24,8 +26,10 @@ process TCOFFEE {
     task.ext.when == null || task.ext.when
 
     script:
-    def args   = task.ext.args   ?: ''
-    prefix     = task.ext.prefix ?: "${meta.id}"
+    def args          = task.ext.args ?: ''
+    def pdb_args      = pdbs     ? pdbs.collect { pdb -> "-pdb ${pdb}" }.join(' ') : ''
+    def template_args = template ? "-template_file ${template}" : ''
+    prefix            = task.ext.prefix ?: "${meta.id}"
     """
     export TEMP="\${PWD}"
     export TMP_4_TCOFFEE="\${PWD}"
@@ -37,6 +41,8 @@ process TCOFFEE {
         -in ${fasta} \\
         -outfile ${prefix}.aln \\
         ${args} \\
+        ${pdb_args} \\
+        ${template_args} \\
         -quiet=stdout
 
     cat <<-END_VERSIONS > versions.yml

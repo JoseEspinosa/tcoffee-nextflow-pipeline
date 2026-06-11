@@ -94,6 +94,19 @@
                     "fa_icon": "fas fa-ruler-horizontal",
                     "minimum": 1,
                     "maximum": 1000000
+                },
+                "pdb": {
+                    "type": "string",
+                    "description": "Comma-separated list of PDB structure files to use for structure-guided alignment (expresso mode).",
+                    "help_text": "One or more PDB files whose structures will be provided to T-Coffee via `-pdb`. Used with `-mode expresso` to guide the alignment with experimental 3D data. Example: `assets/3G61.pdb` or `file1.pdb,file2.pdb`.",
+                    "fa_icon": "fas fa-cube"
+                },
+                "template": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to a T-Coffee template list file mapping sequences to PDB structures.",
+                    "help_text": "A pre-built template list in T-Coffee format (`>seq_name  _P_  PDBIDCHAIN`) used to assign structural templates to each input sequence. When provided, the BLAST-based automatic template search is skipped. Use together with `-method sap_pair` for offline structural alignment.",
+                    "fa_icon": "fas fa-list-alt"
                 }
             }
         },

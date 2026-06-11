@@ -24,10 +24,21 @@ workflow TCOFFEE_WF {
 
     def ch_versions = channel.empty()
 
+    // Optional PDB files for structure-guided alignment (expresso mode)
+    def ch_pdbs = params.pdb
+        ? Channel.fromPath( params.pdb.tokenize(',').collect { it.trim() } ).collect()
+        : Channel.value([])
+
+    // Optional pre-built template list file (bypasses BLASTP-based template search)
+    def ch_template = params.template
+        ? Channel.fromPath( params.template )
+        : Channel.value([])
+
     //
     // MODULE: Run T-Coffee alignment
     //
-    TCOFFEE ( ch_samplesheet )
+    TCOFFEE ( ch_samplesheet, ch_pdbs, ch_template )
+    // TODO check this
     // ch_versions = ch_versions.mix(TCOFFEE.out.versions.first())
 
     //
