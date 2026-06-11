@@ -27,10 +27,12 @@ process TCOFFEE {
     def args   = task.ext.args   ?: ''
     prefix     = task.ext.prefix ?: "${meta.id}"
     """
-    export TEMP='./'
-    export TMP_4_TCOFFEE="./"
-    export HOME="./"
-    
+    export TEMP="\${PWD}"
+    export TMP_4_TCOFFEE="\${PWD}"
+    export HOME="\${PWD}"
+    ## Uncomment if mafft binaries not found
+    # export MAFFT_BINARIES=/opt/tcoffee/plugins/linux
+
     t_coffee \\
         -in ${fasta} \\
         -outfile ${prefix}.aln \\
