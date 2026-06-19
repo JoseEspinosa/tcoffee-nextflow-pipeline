@@ -35,7 +35,7 @@
             "title": "T-Coffee alignment options",
             "type": "object",
             "fa_icon": "fas fa-align-left",
-            "description": "Parameters that control the T-Coffee alignment run.",
+            "description": "Parameters shared across all T-Coffee alignment modes.",
             "properties": {
                 "mode": {
                     "type": "string",
@@ -44,12 +44,6 @@
                     "help_text": "Selects the alignment strategy. Common choices: `regular` (default protein/DNA), `expresso` (structure-aware using PDB), `psicoffee` (profile-based), `mcoffee` (consensus of multiple aligners), `rcoffee` (RNA structural alignment).",
                     "fa_icon": "fas fa-sliders-h",
                     "enum": ["regular", "expresso", "psicoffee", "mcoffee", "rcoffee", "accurate", "quickaln", "fmcoffee"]
-                },
-                "method": {
-                    "type": "string",
-                    "description": "Space-separated list of pairwise or multiple alignment methods to combine.",
-                    "help_text": "Override the default method set. Examples: `clustalw_pair`, `mafft_msa`, `sap_pair`, `mustang_pair`, `TMalign_pair`. Multiple values are space-separated: `'clustalw_pair mafft_msa'`.",
-                    "fa_icon": "fas fa-list"
                 },
                 "output_format": {
                     "type": "string",
@@ -94,10 +88,32 @@
                     "fa_icon": "fas fa-ruler-horizontal",
                     "minimum": 1,
                     "maximum": 1000000
-                },
+                }
+            }
+        },
+        "tcoffee_mcoffee_options": {
+            "title": "M-Coffee options",
+            "type": "object",
+            "fa_icon": "fas fa-layer-group",
+            "description": "Parameters for M-Coffee mode — consensus alignment from multiple methods.",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "Space-separated list of pairwise or multiple alignment methods to combine.",
+                    "help_text": "Override the default method set for M-Coffee or custom multi-method runs. Examples: `clustalw_pair`, `mafft_msa`, `sap_pair`, `mustang_pair`, `TMalign_pair`. Multiple values are space-separated: `'clustalw_pair mafft_msa'`.",
+                    "fa_icon": "fas fa-list"
+                }
+            }
+        },
+        "tcoffee_expresso_options": {
+            "title": "Expresso options",
+            "type": "object",
+            "fa_icon": "fas fa-cube",
+            "description": "Parameters for structure-guided alignment (Expresso / SAP mode).",
+            "properties": {
                 "pdb": {
                     "type": "string",
-                    "description": "Comma-separated list of PDB structure files to use for structure-guided alignment (expresso mode).",
+                    "description": "Comma-separated list of PDB structure files to use for structure-guided alignment.",
                     "help_text": "One or more PDB files whose structures will be provided to T-Coffee via `-pdb`. Used with `-mode expresso` to guide the alignment with experimental 3D data. Example: `assets/3G61.pdb` or `file1.pdb,file2.pdb`.",
                     "fa_icon": "fas fa-cube"
                 },
