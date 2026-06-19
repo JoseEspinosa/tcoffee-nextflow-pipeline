@@ -52,7 +52,7 @@
                     "help_text": "Supported formats: `clustalw_aln`, `fasta_aln`, `pir_aln`, `msf_aln`, `score_html`, `score_ascii`, `phylip_aln`.",
                     "fa_icon": "fas fa-file-export"
                 },
-                "letter": {
+                "case": {
                     "type": "string",
                     "default": "upper",
                     "description": "Case of the output alignment characters.",
