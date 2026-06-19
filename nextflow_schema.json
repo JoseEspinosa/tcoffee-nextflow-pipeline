@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["input"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -208,15 +208,18 @@
                 },
                 "help": {
                     "type": ["boolean", "string"],
-                    "description": "Display the help message."
+                    "description": "Display the help message.",
+                    "hidden": true
                 },
                 "help_full": {
                     "type": "boolean",
-                    "description": "Display the full detailed help message."
+                    "description": "Display the full detailed help message.",
+                    "hidden": true
                 },
                 "show_hidden": {
                     "type": "boolean",
-                    "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
+                    "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided).",
+                    "hidden": true
                 }
             }
         }
